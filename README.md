@@ -67,9 +67,62 @@ The following requirements define the scope and standards of this project.
 
 ---
 
-## Build Data Warehouse (Data Engineering)
+## 01 Build Data Warehouse (Data Engineering)
 
 ### Data Architecture
 
 The warehouse is built on the **Medallion Architecture**, implemented entirely within SQL Server. Data flows from source systems through 
 three progressive layers before reaching the consumption layer.
+
+![data_architecture.png](docs/data_architecture.png)
+
+* **Bronze**: Stores raw data as-is.
+* **Silver**: Houses cleaned and prepared data.
+* **Gold**: Houses business-ready data.
+
+
+## 02. Analytics & BI Reporting (Data Analytics)
+
+This section of the project is divided into two phases **Exploratory Data Analytics (EDA)** and **Advanced Data Analytics**.
+
+### Objectives
+Generate SQL and BI reports that draw insight into:
+
+* Customer Segmentation
+* Account Health
+* Loan Portfolio
+
+---
+## Project Roadmap
+
+- **Dataset generation**: Multi-source synthetic banking data (137,493 rows)
+- **Project planning**: Architecture design, load strategy, naming conventions
+- **Repository setup**: Structure, README, data dictionary, naming conventions
+- **Phase 1**: DDL scripts — Bronze, Silver, and Gold layer table definitions
+- **Phase 2**: ETL pipeline — domain-grouped stored procedures and logging framework
+- **Phase 3**: Exploratory Data Analysis query library
+- **Phase 4**: Advanced statistical analytics in T-SQL
+
+---
+
+## Tools & Technologies Used
+
+* **Notion**: Project Planning
+* **SQL Server**: Database engine that stores data.
+* **SQL Server Management Studio (SSMS)**: Interface for interacting with SQL server.
+* **Draw.io**: For designing the data architecture, data flow, integration model, and data model.
+* **Git Hub**: For committing codes.
+* **Tableau**: For data visualization.
+
+---
+
+## License
+This project is licensed under **MIT License**. You are free to use, modify, or share with proper attribution.
+
+---
+
+## About Me
+Hi there! I'm **Otusanya Toyib Oluwatimilehin**. I'm an aspiring **Data Engineer and Analyst** passionate about building reliable data pipelines, efficient data models, and generating data-driven business decisions. 
+
+<img src="https://cdn-icons-png.flaticon.com/128/724/724664.png" width="18" alt="Phone"/> **07082154436** 
+<img src="https://cdn-icons-png.flaticon.com/128/732/732200.png" width="18" alt="E-mail"/> **toyibotusanya@gmail.com**
