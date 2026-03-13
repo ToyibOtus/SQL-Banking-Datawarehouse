@@ -4,6 +4,7 @@ Script    : 01_create_database.sql
 Location  : scripts/00_init/
 Author    : Otusanya Toyib Oluwatimilehin
 Created   : 2026-03-12
+version   : 1.0
 ===========================================================================
 Script Purpose:
 	Creates the BankingDW database and all required schemas across
