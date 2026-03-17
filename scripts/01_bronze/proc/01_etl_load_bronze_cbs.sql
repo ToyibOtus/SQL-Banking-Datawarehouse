@@ -44,7 +44,7 @@ BEGIN
 	@batch_start_time DATETIME2,
 	@end_time DATETIME2,
 	@batch_duration_seconds INT,
-	@load_status NVARCHAR(50) = 'Running',
+	@batch_status NVARCHAR(50) = 'Running',
 	@total_rows INT = 0,
 	@executed_by NVARCHAR(100) = SUSER_NAME(),
 	@err_message NVARCHAR(MAX),
@@ -103,7 +103,7 @@ BEGIN
 		@source_system,
 		@layer,
 		@batch_start_time,
-		@load_status,
+		@batch_status,
 		@total_rows,
 		@executed_by
 	);
@@ -598,14 +598,14 @@ BEGIN
 		-- Map values to variables
 		SET @end_time = SYSDATETIME();
 		SET @batch_duration_seconds = DATEDIFF(second, @batch_start_time, @end_time);
-		SET @load_status = 'Success';
+		SET @batch_status = 'Success';
 
 		-- Update log details at batch-level
 		UPDATE etl.batch_log
 			SET
 				end_time = @end_time,
 				load_duration_seconds = @batch_duration_seconds,
-				load_status = @load_status,
+				load_status = @batch_status,
 				total_rows_processed = @total_rows
 			WHERE batch_id = @batch_id;
 	END TRY
@@ -620,7 +620,7 @@ BEGIN
 		SET @step_duration_seconds = DATEDIFF(second, @start_time, @end_time);
 		SET @batch_duration_seconds = DATEDIFF(second, @batch_start_time, @end_time);
 		SET @step_status = 'Failed';
-		SET @load_status = 'Failed';
+		SET @batch_status = 'Failed';
 
 		
 		IF @rows_extracted IS NULL SET @rows_extracted = 0;
@@ -634,7 +634,7 @@ BEGIN
 			SET
 				end_time = @end_time,
 				load_duration_seconds = @batch_duration_seconds,
-				load_status = @load_status,
+				load_status = @batch_status,
 				total_rows_processed = @total_rows,
 				err_message = ERROR_MESSAGE()
 			WHERE batch_id = @batch_id;
