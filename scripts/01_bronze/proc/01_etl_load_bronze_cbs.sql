@@ -57,7 +57,7 @@ BEGIN
 	@target_object NVARCHAR(50),
 	@start_time DATETIME2,
 	@step_duration_seconds INT,
-	@step_status NVARCHAR(50) = 'Running',
+	@step_status NVARCHAR(50),
 	@rows_extracted INT,
 	@rows_inserted INT,
 	@rows_rejected INT,
@@ -133,6 +133,7 @@ BEGIN
 		SET @source_object = @path_accounts;
 		SET @target_object = @target_accounts;
 		SET @step_name = 'Load bronze.cbs_accounts';
+		SET @step_status = 'Running';
 		SET @load_type = 'Incremental: Append-Only';
 		SET @rows_extracted = 0;
 		SET @rows_inserted = 0;
@@ -286,6 +287,7 @@ BEGIN
 		SET @source_object = @path_branches;
 		SET @target_object = @target_branches;
 		SET @step_name = 'Load bronze.cbs_branches';
+		SET @step_status = 'Running';
 		SET @load_type = 'Full: Truncate & Insert';
 		SET @rows_extracted = 0;
 		SET @rows_inserted = 0;
@@ -435,6 +437,7 @@ BEGIN
 		SET @source_object = @path_transactions;
 		SET @target_object = @target_transactions;
 		SET @step_name = 'Load bronze.cbs_transactions';
+		SET @step_status = 'Running';
 		SET @load_type = 'Incremental: Append-Only';
 		SET @rows_extracted = 0;
 		SET @rows_inserted = 0;
