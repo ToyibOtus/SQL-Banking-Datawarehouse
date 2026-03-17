@@ -1,11 +1,11 @@
 /*
-===========================================================================
+===================================================================================
 Script    : 01_bronze_tables.sql
 Location  : scripts/01_bronze/ddl/
 Author    : Otusanya Toyib Oluwatimilehin
 Created   : 2026-03-13
-Version   : 1.0
-===========================================================================
+Version   : 1.1
+===================================================================================
 Script Purpose:
     Creates the bronze tables into which the records from the source files
 	are loaded.
@@ -21,11 +21,18 @@ Script Purpose:
   Warning:
       Running this script will drop and recreate all bronze tables.
       All existing data will be permanently lost.
-=============================================================================
+===================================================================================
   Change Log:
-      1.0   2026-03-13   Initial creation
-=============================================================================
+	 
+	 | Version |     Date    |    Description                                   |
+	 |---------|-------------|--------------------------------------------------|
+	 | 	 1.0   |  2026-03-13 |  Initial creation                                |
+	 |	 1.1   |  2026-03-17 |  Modified metadata columns across bronze tables  |
+===================================================================================
 */
+USE BankingDW;
+GO
+
 -- Drop table [bronze.crm_customers] if it exists
 DROP TABLE IF EXISTS bronze.crm_customers;
 GO
@@ -64,9 +71,8 @@ CREATE TABLE bronze.crm_customers
 	_source_system NVARCHAR(50) NOT NULL,
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
+	_batch_date DATE DEFAULT GETDATE() NOT NULL,
 	_load_timestamp DATETIME2 NOT NULL,
-	_is_deleted BIT DEFAULT 0 NOT NULL,
-	_batch_date DATE NOT NULL
 );
 GO
 
@@ -98,9 +104,8 @@ CREATE TABLE bronze.cbs_accounts
 	_source_system NVARCHAR(50) NOT NULL,
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
+	_batch_date DATE DEFAULT GETDATE() NOT NULL,
 	_load_timestamp DATETIME2 NOT NULL,
-	_is_deleted BIT DEFAULT 0 NOT NULL,
-	_batch_date DATE NOT NULL
 );
 GO
 
@@ -130,9 +135,8 @@ CREATE TABLE bronze.cbs_branches
 	_source_system NVARCHAR(50) NOT NULL,
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
+	_batch_date DATE DEFAULT GETDATE() NOT NULL,
 	_load_timestamp DATETIME2 NOT NULL,
-	_is_deleted BIT DEFAULT 0 NOT NULL,
-	_batch_date DATE NOT NULL
 );
 GO
 
@@ -168,9 +172,8 @@ CREATE TABLE bronze.cbs_transactions
 	_source_system NVARCHAR(50) NOT NULL,
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
+	_batch_date DATE DEFAULT GETDATE() NOT NULL,
 	_load_timestamp DATETIME2 NOT NULL,
-	_is_deleted BIT DEFAULT 0 NOT NULL,
-	_batch_date DATE NOT NULL
 );
 GO
 
@@ -199,9 +202,8 @@ CREATE TABLE bronze.hrms_employees
 	_source_system NVARCHAR(50) NOT NULL,
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
+	_batch_date DATE DEFAULT GETDATE() NOT NULL,
 	_load_timestamp DATETIME2 NOT NULL,
-	_is_deleted BIT DEFAULT 0 NOT NULL,
-	_batch_date DATE NOT NULL
 );
 GO
 
@@ -240,8 +242,7 @@ CREATE TABLE bronze.los_loan_applications
 	_source_system NVARCHAR(50) NOT NULL,
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
+	_batch_date DATE DEFAULT GETDATE() NOT NULL,
 	_load_timestamp DATETIME2 NOT NULL,
-	_is_deleted BIT DEFAULT 0 NOT NULL,
-	_batch_date DATE NOT NULL
 );
 GO
