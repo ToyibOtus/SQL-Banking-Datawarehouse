@@ -1,11 +1,11 @@
 /*
-===========================================================================
+====================================================================================
 Script    : 02_create_log_tables.sql
 Location  : scripts/00_init/
 Author    : Otusanya Toyib Oluwatimilehin
 Created   : 2026-03-13
-Version   : 1.0
-===========================================================================
+Version   : 1.1
+====================================================================================
 Script Purpose:
     Creates the ETL logging framework tables used to track every
     pipeline run, step execution, row-level error, and incremental
@@ -20,10 +20,15 @@ Script Purpose:
   Warning:
       Running this script will drop and recreate all ETL log tables.
       All existing log history will be permanently lost.
-=============================================================================
+====================================================================================
   Change Log:
-      1.0   2026-03-13   Initial creation
-=============================================================================
+	 
+	 | Version |     Date    |    Description                                   |
+	 |---------|-------------|--------------------------------------------------|
+	 | 	 1.0   |  2026-03-13 |  Initial creation                                |
+	 |	 1.1   |  2026-03-17 |  Added load duration to batch and step logs,     |
+	 |	       |             |  loaded etl.watermark                            |
+====================================================================================
 */
 USE BankingDW;
 GO
@@ -43,6 +48,7 @@ CREATE TABLE etl.batch_log
 	layer NVARCHAR(50) NOT NULL,
 	start_time DATETIME2 NOT NULL,
 	end_time DATETIME2,
+	load_duration_seconds INT,
 	load_status NVARCHAR(50) NOT NULL,
 	total_rows_processed INT,
 	executed_by NVARCHAR(100),
@@ -58,10 +64,12 @@ CREATE TABLE etl.step_log
 	step_id INT IDENTITY(1, 1) PRIMARY KEY,
 	step_name NVARCHAR(50) NOT NULL,
 	batch_id INT NOT NULL,
+	load_type NVARCHAR(50) NOT NULL,
 	source_object NVARCHAR(200) NOT NULL,
 	target_object NVARCHAR(50) NOT NULL,
 	start_time DATETIME2 NOT NULL,
 	end_time DATETIME2,
+	load_duration_seconds INT,
 	step_status NVARCHAR(50) NOT NULL,
 	rows_extracted INT,
 	rows_inserted INT,
@@ -99,11 +107,25 @@ CREATE TABLE etl.watermark
 (
 	watermark_id INT IDENTITY(1, 1) PRIMARY KEY,
 	source_system NVARCHAR(50) NOT NULL,
-	source_object NVARCHAR(200) NOT NULL,
+	source_object NVARCHAR(200) NULL,
 	target_object NVARCHAR(50) NOT NULL,
-	last_batch_id INT NOT NULL,
+	last_batch_id INT NULL,
 	last_loaded DATETIME2 NOT NULL,
-	updated_at DATETIME2 NOT NULL,
 	CONSTRAINT fk_last_batch_id_etl_watermark FOREIGN KEY(last_batch_id) REFERENCES etl.batch_log (batch_id)
 );
 GO
+
+-- Load etl.watermark table
+INSERT INTO etl.watermark
+(
+	source_system,
+	target_object,
+	last_loaded
+)
+VALUES 
+	('CBS', 'bronze.cbs_accounts', '1900-01-01'),
+	('CBS', 'bronze.cbs_branches', '1900-01-01'),
+	('CBS', 'bronze.cbs_transactions', '1900-01-01'),
+	('CRM', 'bronze.crm_customers', '1900-01-01'),
+	('HRMS', 'bronze.hrms_employees', '1900-01-01'),
+	('LOS', 'bronze.los_loan_applications', '1900-01-01');
