@@ -88,6 +88,7 @@ BEGIN
 	-- Retrieve batch start time
 	SET @batch_start_time = SYSDATETIME();
 
+	-- Load log details at batch-level
 	INSERT INTO etl.batch_log
 	(
 		batch_name,
@@ -108,6 +109,7 @@ BEGIN
 		@total_rows,
 		@executed_by
 	);
+	-- Retrieve recently generated batch_id
 	SET @batch_id = SCOPE_IDENTITY();
 
 	-- =======================================================================================
@@ -195,7 +197,7 @@ BEGIN
 		SET @sql = 'BULK INSERT #stg_accounts FROM ''' + @source_object + ''' WITH (FIRSTROW = 2, FORMAT = ''CSV'', FIELDTERMINATOR = '','', 
 		ROWTERMINATOR = ''0x0A'', CODEPAGE = ''65001'', TABLOCK, KEEPNULLS);';
 
-		-- Executed SQL query
+		-- Execute SQL query
 		EXEC (@sql);
 
 		-- Load bronze.cbs_accounts
@@ -629,7 +631,7 @@ BEGIN
 
 		IF @rows_inserted IS NULL SET @rows_inserted = 0;
 		IF @rows_extracted IS NULL SET @rows_extracted = 0;
-		IF @total_rows IS NULL SET @total_rows = 0
+		IF @total_rows IS NULL SET @total_rows = 0;
 
 		SET @rows_rejected = 0;
 
@@ -696,29 +698,29 @@ BEGIN
 				SET @step_id = SCOPE_IDENTITY();
 			END;
 
-			-- Insert into error log 
-			INSERT INTO etl.error_log
-			(
-				batch_id,
-				step_id,
-				source_system,
-				layer,
-				source_object,
-				target_object,
-				error_description,
-				rejected_at
-			)
-			VALUES
-			(
-				@batch_id,
-				@step_id,
-				@source_system,
-				@layer,
-				COALESCE(@source_object, 'Unknown'),
-				COALESCE(@target_object, 'Unknown'),
-				ERROR_MESSAGE(),
-				@end_time
-			);
+		-- Insert into error log 
+		INSERT INTO etl.error_log
+		(
+			batch_id,
+			step_id,
+			source_system,
+			layer,
+			source_object,
+			target_object,
+			error_description,
+			rejected_at
+		)
+		VALUES
+		(
+			@batch_id,
+			@step_id,
+			@source_system,
+			@layer,
+			COALESCE(@source_object, 'Unknown'),
+			COALESCE(@target_object, 'Unknown'),
+			ERROR_MESSAGE(),
+			@end_time
+		);
 		THROW;
 	END CATCH;
 END;
