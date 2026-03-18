@@ -1,7 +1,7 @@
 /*
 ===================================================================================
 Script    : 01_etl_load_bronze_cbs
-Location  : scripts/01_bronze/proc/
+Location  : scripts/01_bronze/procs/
 Author    : Otusanya Toyib Oluwatimilehin
 Created   : 2026-03-17
 Version   : 1.0
