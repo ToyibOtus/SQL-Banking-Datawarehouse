@@ -351,7 +351,8 @@ BEGIN
 						load_duration_seconds = @step_duration_seconds,
 						step_status = @step_status,
 						rows_extracted = @rows_extracted,
-						rows_inserted = @rows_inserted
+						rows_inserted = @rows_inserted,
+						err_message = ERROR_MESSAGE()
 					WHERE step_id = @step_id;
 			END;
 		
@@ -371,7 +372,8 @@ BEGIN
 					step_status,
 					rows_extracted,
 					rows_inserted,
-					rows_rejected
+					rows_rejected,
+					err_message
 				)
 				VALUES
 				(
@@ -386,7 +388,8 @@ BEGIN
 					@step_status,
 					@rows_extracted,
 					@rows_inserted,
-					@rows_rejected
+					@rows_rejected,
+					ERROR_MESSAGE()
 				);
 				-- Capture newly generated step_id on failure
 				SET @step_id = SCOPE_IDENTITY();
