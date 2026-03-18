@@ -4,7 +4,7 @@ Script    : 04_etl_load_bronze_los
 Location  : scripts/01_bronze/procs/
 Author    : Otusanya Toyib Oluwatimilehin
 Created   : 2026-03-18
-Version   : 1.0
+Version   : 1.1
 ===================================================================================
 Script Purpose:
     Loads all records from the source system (LOS) into the bronze layer. It has
