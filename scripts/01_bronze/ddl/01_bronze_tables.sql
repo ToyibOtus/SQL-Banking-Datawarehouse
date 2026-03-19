@@ -72,7 +72,7 @@ CREATE TABLE bronze.crm_customers
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
 	_batch_date DATE DEFAULT GETDATE() NOT NULL,
-	_load_timestamp DATETIME2 NOT NULL,
+	_load_timestamp DATETIME2 NOT NULL
 );
 GO
 
@@ -105,7 +105,7 @@ CREATE TABLE bronze.cbs_accounts
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
 	_batch_date DATE DEFAULT GETDATE() NOT NULL,
-	_load_timestamp DATETIME2 NOT NULL,
+	_load_timestamp DATETIME2 NOT NULL
 );
 GO
 
@@ -136,7 +136,7 @@ CREATE TABLE bronze.cbs_branches
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
 	_batch_date DATE DEFAULT GETDATE() NOT NULL,
-	_load_timestamp DATETIME2 NOT NULL,
+	_load_timestamp DATETIME2 NOT NULL
 );
 GO
 
@@ -173,7 +173,7 @@ CREATE TABLE bronze.cbs_transactions
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
 	_batch_date DATE DEFAULT GETDATE() NOT NULL,
-	_load_timestamp DATETIME2 NOT NULL,
+	_load_timestamp DATETIME2 NOT NULL
 );
 GO
 
@@ -203,7 +203,7 @@ CREATE TABLE bronze.hrms_employees
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
 	_batch_date DATE DEFAULT GETDATE() NOT NULL,
-	_load_timestamp DATETIME2 NOT NULL,
+	_load_timestamp DATETIME2 NOT NULL
 );
 GO
 
@@ -243,6 +243,6 @@ CREATE TABLE bronze.los_loan_applications
 	_source_file NVARCHAR(200) NOT NULL,
 	_batch_id INT NOT NULL,
 	_batch_date DATE DEFAULT GETDATE() NOT NULL,
-	_load_timestamp DATETIME2 NOT NULL,
+	_load_timestamp DATETIME2 NOT NULL
 );
 GO
